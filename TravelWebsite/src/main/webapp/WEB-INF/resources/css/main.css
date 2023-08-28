@@ -1,0 +1,7 @@
+
+.avatar {
+    width: 50px; /* Độ rộng bạn muốn */
+    height: 50px; /* Độ cao bạn muốn */
+    border-radius: 50%; /* Để làm cho hình ảnh có hình tròn */
+    object-fit: cover; /* Để điều chỉnh hình ảnh sao cho nó không bị bóp hoặc kéo */
+}
