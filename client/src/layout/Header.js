@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Col, Container, Form, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
+import { Badge, Button, Col, Container, Form, Nav, NavDropdown, Navbar, Row } from "react-bootstrap";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "./MySpinner";
 import { Link, useNavigate } from "react-router-dom";
-import { MyUserContext } from "../App";
+import { MyCartContext, MyUserContext } from "../App";
 
 const Header = () => {
     const [user, dispatch] = useContext(MyUserContext);
     const [destinations, setDestinations] = useState([]);
     const [kw, setKw] = useState("");
+    const [cartCounter, ] = useContext(MyCartContext);
     const nav = useNavigate();
 
     useEffect(() => {
@@ -59,6 +60,7 @@ const Header = () => {
                                 <Link className="text-danger nav-link" to="/login">Chào {user.userUsername}!</Link>
                                 <Button variant="secondary" onClick={logout}>Đăng xuất</Button>
                             </>}
+                            <Link className="nav-link text-danger" to="/cart">&#128722; <Badge bg="danger">{cartCounter}</Badge></Link>
                         </Nav>
                     </Navbar.Collapse>
                     <Form onSubmit={search} inline="">

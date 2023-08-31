@@ -22,10 +22,16 @@
     </div>
 
     <div class="form-floating mb-3 mt-3">
-        <form:input type="number" class="form-control" path="tourPrice" id="tourPrice" 
-                    placeholder="Giá tour" name="tourPrice" />
-        <label for="name">Giá tour</label>
-        <form:errors path="tourPrice" element="div" cssClass="text-danger" />
+        <form:input type="number" class="form-control" path="tourAdultPrice" id="tourPrice" 
+                    placeholder="Giá tour người lớn" name="tourPrice" />
+        <label for="name">Giá tour người lớn</label>
+        <form:errors path="tourAdultPrice" element="div" cssClass="text-danger" />
+    </div>
+    <div class="form-floating mb-3 mt-3">
+        <form:input type="number" class="form-control" path="tourChildPrice" id="tourPrice" 
+                    placeholder="Giá tour trẻ em" name="tourPrice" />
+        <label for="name">Giá tour trẻ em</label>
+        <form:errors path="tourChildPrice" element="div" cssClass="text-danger" />
     </div>
     <div class="form-floating">
         <form:select class="form-select" path="destinationId" id="destinationId" name="destinationId">

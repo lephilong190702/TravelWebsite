@@ -62,12 +62,12 @@ public class TourRepositoryImpl implements TourRepository {
             }
             String fromPrice = params.get("fromPrice");
             if (fromPrice != null && !fromPrice.isEmpty()) {
-                predicates.add(b.greaterThanOrEqualTo(root.get("tourPrice"), Float.parseFloat(fromPrice)));
+                predicates.add(b.greaterThanOrEqualTo(root.get("tourAdultPrice"), Float.parseFloat(fromPrice)));
             }
 
             String toPrice = params.get("toPrice");
             if (toPrice != null && !toPrice.isEmpty()) {
-                predicates.add(b.lessThanOrEqualTo(root.get("tourPrice"), Float.parseFloat(toPrice)));
+                predicates.add(b.lessThanOrEqualTo(root.get("tourAdultPrice"), Float.parseFloat(toPrice)));
             }
 
             String fromDate = params.get("fromDate");

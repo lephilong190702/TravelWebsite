@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Alert, Button, Card, Col, Row } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
 
@@ -50,7 +50,10 @@ const News = () => {
                             <Card.Img variant="top" src={n.newsImageurl} width="200" height="200" />
                             <Card.Body>
                                 <Card.Title>{n.newsTitle}</Card.Title>
+                                <Link to={`/news/${n.newsId}`}>
                                 <Button variant="primary">Xem chi tiết</Button>
+                                </Link>
+                               
                             </Card.Body>
                         </Card>
                     </Col>

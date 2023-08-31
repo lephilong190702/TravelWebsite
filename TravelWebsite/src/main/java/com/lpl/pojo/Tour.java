@@ -44,7 +44,8 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Tour.findAll", query = "SELECT t FROM Tour t"),
     @NamedQuery(name = "Tour.findByTourId", query = "SELECT t FROM Tour t WHERE t.tourId = :tourId"),
     @NamedQuery(name = "Tour.findByTourTitle", query = "SELECT t FROM Tour t WHERE t.tourTitle = :tourTitle"),
-    @NamedQuery(name = "Tour.findByTourPrice", query = "SELECT t FROM Tour t WHERE t.tourPrice = :tourPrice"),
+    @NamedQuery(name = "Tour.findByTourAdultPrice", query = "SELECT t FROM Tour t WHERE t.tourAdultPrice = :tourAdultPrice"),
+    @NamedQuery(name = "Tour.findByTourChildPrice", query = "SELECT t FROM Tour t WHERE t.tourChildPrice = :tourChildPrice"),
     @NamedQuery(name = "Tour.findByTourStartdate", query = "SELECT t FROM Tour t WHERE t.tourStartdate = :tourStartdate"),
     @NamedQuery(name = "Tour.findByTourEnddate", query = "SELECT t FROM Tour t WHERE t.tourEnddate = :tourEnddate"),
     @NamedQuery(name = "Tour.findByTourDuration", query = "SELECT t FROM Tour t WHERE t.tourDuration = :tourDuration"),
@@ -80,8 +81,10 @@ public class Tour implements Serializable {
     private String tourTitle;
     @Basic(optional = false)
     @NotNull(message = "{tour.tourPrice.notNull}")
-    @Column(name = "tour_price")
-    private float tourPrice;
+    @Column(name = "tour_adultprice")
+    private float tourAdultPrice;
+    @Column(name = "tour_childprice")
+    private float tourChildPrice;
     @Column(name = "tour_startdate")
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -117,10 +120,11 @@ public class Tour implements Serializable {
         this.tourId = tourId;
     }
 
-    public Tour(Integer tourId, String tourTitle, float tourPrice) {
+    public Tour(Integer tourId, String tourTitle, float tourAdultPrice, float tourChildPrice) {
         this.tourId = tourId;
         this.tourTitle = tourTitle;
-        this.tourPrice = tourPrice;
+        this.tourAdultPrice = tourAdultPrice;
+        this.tourChildPrice = tourChildPrice;
     }
 
     public Integer getTourId() {
@@ -139,13 +143,6 @@ public class Tour implements Serializable {
         this.tourTitle = tourTitle;
     }
 
-    public float getTourPrice() {
-        return tourPrice;
-    }
-
-    public void setTourPrice(float tourPrice) {
-        this.tourPrice = tourPrice;
-    }
 
     public Date getTourStartdate() {
         return tourStartdate;
@@ -289,6 +286,34 @@ public class Tour implements Serializable {
 
     public void setEmployeeSet(Set<Employee> employeeSet) {
         this.employeeSet = employeeSet;
+    }
+
+    /**
+     * @return the tourAdultPrice
+     */
+    public float getTourAdultPrice() {
+        return tourAdultPrice;
+    }
+
+    /**
+     * @param tourAdultPrice the tourAdultPrice to set
+     */
+    public void setTourAdultPrice(float tourAdultPrice) {
+        this.tourAdultPrice = tourAdultPrice;
+    }
+
+    /**
+     * @return the tourChildPrice
+     */
+    public float getTourChildPrice() {
+        return tourChildPrice;
+    }
+
+    /**
+     * @param tourChildPrice the tourChildPrice to set
+     */
+    public void setTourChildPrice(float tourChildPrice) {
+        this.tourChildPrice = tourChildPrice;
     }
 
 }

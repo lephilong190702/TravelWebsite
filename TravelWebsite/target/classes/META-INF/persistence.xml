@@ -11,10 +11,10 @@
     <class>com.lpl.pojo.Tour</class>
     <class>com.lpl.pojo.News</class>
     <class>com.lpl.pojo.Payment</class>
-    <class>com.lpl.pojo.Booking</class>
     <class>com.lpl.pojo.Image</class>
     <class>com.lpl.pojo.Employee</class>
     <class>com.lpl.pojo.Comment</class>
+    <class>com.lpl.pojo.Booking</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/tourism_db?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

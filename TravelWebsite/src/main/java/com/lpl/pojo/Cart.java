@@ -11,8 +11,10 @@ package com.lpl.pojo;
 public class Cart {
     private int id;
     private String name;
-    private Float unitPrice;
-    private int quantity;
+    private Float adultUnitPrice;
+    private Float childUnitPrice;
+    private int adultQuantity;
+    private int childQuantity;
 
     /**
      * @return the id
@@ -45,29 +47,65 @@ public class Cart {
     /**
      * @return the unitPrice
      */
-    public Float getUnitPrice() {
-        return unitPrice;
-    }
-
-    /**
-     * @param unitPrice the unitPrice to set
-     */
-    public void setUnitPrice(Float unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
     /**
      * @return the quantity
      */
-    public int getQuantity() {
-        return quantity;
+  
+
+    /**
+     * @return the adultUnitPrice
+     */
+    public Float getAdultUnitPrice() {
+        return adultUnitPrice;
     }
 
     /**
-     * @param quantity the quantity to set
+     * @param adultUnitPrice the adultUnitPrice to set
      */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setAdultUnitPrice(Float adultUnitPrice) {
+        this.adultUnitPrice = adultUnitPrice;
+    }
+
+    /**
+     * @return the childUnitPrice
+     */
+    public Float getChildUnitPrice() {
+        return childUnitPrice;
+    }
+
+    /**
+     * @param childUnitPrice the childUnitPrice to set
+     */
+    public void setChildUnitPrice(Float childUnitPrice) {
+        this.childUnitPrice = childUnitPrice;
+    }
+
+    /**
+     * @return the adultQuantity
+     */
+    public int getAdultQuantity() {
+        return adultQuantity;
+    }
+
+    /**
+     * @param adultQuantity the adultQuantity to set
+     */
+    public void setAdultQuantity(int adultQuantity) {
+        this.adultQuantity = adultQuantity;
+    }
+
+    /**
+     * @return the childQuantity
+     */
+    public int getChildQuantity() {
+        return childQuantity;
+    }
+
+    /**
+     * @param childQuantity the childQuantity to set
+     */
+    public void setChildQuantity(int childQuantity) {
+        this.childQuantity = childQuantity;
     }
     
     

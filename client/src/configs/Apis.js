@@ -11,7 +11,12 @@ export const endpoints = {
     "login":`${SERVER_CONTEXT}/api/login/`,
     "register":`${SERVER_CONTEXT}/api/users/`,
     "current-user":`${SERVER_CONTEXT}/api/current-user/`,
-    "tourDetail": (id) => `${SERVER_CONTEXT}/api/tours/${id}`
+    "tour-detail": (id) => `${SERVER_CONTEXT}/api/tours/${id}/`,
+    "news-detail": (id) => `${SERVER_CONTEXT}/api/news/${id}/`,
+    "tour-comments": (id) => `${SERVER_CONTEXT}/api/tours/${id}/comments/`,
+    "news-comments": (id) => `${SERVER_CONTEXT}/api/news/${id}/comments/`,
+    "add-comment":`${SERVER_CONTEXT}/api/comments/`,
+    "pay":`${SERVER_CONTEXT}/api/pay/`
 }
 
 export const authApi = () => {

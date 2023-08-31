@@ -5,6 +5,7 @@
 package com.lpl.service.impl;
 
 import com.lpl.pojo.Comment;
+import com.lpl.pojo.News;
 import com.lpl.pojo.Tour;
 import com.lpl.pojo.User;
 import com.lpl.repository.CommentRepository;
@@ -29,8 +30,6 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
-    private TourRepository tourRepository;
-    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -39,17 +38,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> getCommentsByNews(int newsId) {
+        return this.commentRepository.getCommentsByNews(newsId);
+    }
+
+    @Override
     public int countComments(int tourId) {
         return this.commentRepository.countComments(tourId);
     }
 
     @Override
-    public Comment addComment(String content, int tourId) {
-        Comment c = new Comment();
-        c.setCommentContent(content);
-        c.setTourId(this.tourRepository.getTourById(tourId));
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();  
+    public Comment addComment(Comment c) {
+        c.setCommentDatetime(new Date());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             // Đã đăng nhập
             String currentPrincipalName = authentication.getName();
@@ -57,11 +58,22 @@ public class CommentServiceImpl implements CommentService {
             User user = this.userRepository.getUserByUsername(currentPrincipalName);
 //            User user = this.userRepository.getUserByUsername("meo");
             c.setUserId(user);
+            Tour tour = c.getTourId(); // Lấy đối tượng Tour từ Comment
+            News news = c.getNewsId(); // Lấy đối tượng News từ Comment
+
+            if (tour != null) {
+                // Thêm bình luận cho tour
+                return this.commentRepository.addComment(c, tour.getTourId(), 0);
+            } else if (news != null) {
+                // Thêm bình luận cho tin tức
+                return this.commentRepository.addComment(c, 0, news.getNewsId());
+            } else {
+                return null;
+            }
         } else {
-            // Chưa đăng nhập
             System.out.println("Không tìm thấy user");
         }
-        c.setCommentDatetime(new Date());
-        return this.commentRepository.addComment(c);
+        return null;
     }
+
 }

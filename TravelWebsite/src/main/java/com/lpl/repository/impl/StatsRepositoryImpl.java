@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class StatsRepositoryImpl implements StatsRepository {
+
     public static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
@@ -46,12 +47,12 @@ public class StatsRepositoryImpl implements StatsRepository {
         CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
         Root rT = q.from(Tour.class);
         Root rD = q.from(Destination.class);
-        
+
         q.multiselect(rD.get("destinationId"), rD.get("destinationCity"), b.count(rT.get("tourId")));
         q.where(b.equal(rT.get("destinationId"), rD.get("destinationId")));
         q.groupBy(rD.get("destinationId"));
         Query query = s.createQuery(q);
-        return query.getResultList();    
+        return query.getResultList();
     }
 
     @Override
@@ -62,36 +63,42 @@ public class StatsRepositoryImpl implements StatsRepository {
         Root rT = q.from(Tour.class);
         Root rB = q.from(Booking.class);
         Root rP = q.from(Payment.class);
-        
-        q.multiselect(rT.get("tourId"), rT.get("tourTitle"), b.sum(b.prod(rB.get("bookingUnitprice"), rB.get("bookingNumberofaudult"))));
+
+        q.multiselect(rT.get("tourId"), rT.get("tourTitle"),
+                b.sum(
+                        b.sum(
+                                b.prod(rB.get("bookingAdultunitprice"), rB.get("bookingNumberofaudult")),
+                                b.prod(rB.get("bookingChildunitprice"), rB.get("bookingNumberofchidren"))
+                        )
+                ));
+
         
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(rB.get("tourId"), rT.get("tourId")));
         predicates.add(b.equal(rB.get("paymentId"), rP.get("paymentId")));
-        
+
         String fd = params.get("fromDate");
-        if(fd != null && fd.isEmpty())
+        if (fd != null && !fd.isEmpty())
             try {
-                predicates.add(b.greaterThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(fd)));
+            predicates.add(b.greaterThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(fd)));
         } catch (ParseException ex) {
             Logger.getLogger(StatsRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         String td = params.get("toDate");
-        if(td != null && td.isEmpty())
+        if (td != null && !td.isEmpty())
             try {
-                predicates.add(b.lessThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(td)));
+            predicates.add(b.lessThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(td)));
         } catch (ParseException ex) {
             Logger.getLogger(StatsRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
-        
+
         q.where(predicates.toArray(Predicate[]::new));
-        
-        
+
         q.groupBy(rT.get("tourId"));
+        q.orderBy(b.asc(rT.get("tourId")));
         Query query = s.createQuery(q);
-        return query.getResultList();    
+        return query.getResultList();
     }
 
 }

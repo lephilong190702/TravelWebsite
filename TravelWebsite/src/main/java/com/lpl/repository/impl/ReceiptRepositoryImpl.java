@@ -51,8 +51,10 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
 
             for (Cart c : carts.values()) {
                 Booking b = new Booking();
-                b.setBookingUnitprice(c.getUnitPrice());
-                b.setBookingNumberofaudult(c.getQuantity());
+                b.setBookingAdultunitprice(c.getAdultUnitPrice());
+                b.setBookingChildunitprice(c.getChildUnitPrice());
+                b.setBookingNumberofaudult(c.getAdultQuantity());
+                b.setBookingNumberofchidren(c.getChildQuantity());
                 b.setPaymentId(payment);
                 b.setTourId(this.tourRepository.getTourById(c.getId()));
                 s.save(b);

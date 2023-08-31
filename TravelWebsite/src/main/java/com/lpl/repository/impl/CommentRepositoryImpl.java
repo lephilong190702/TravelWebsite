@@ -5,6 +5,7 @@
 package com.lpl.repository.impl;
 
 import com.lpl.pojo.Comment;
+import com.lpl.pojo.News;
 import com.lpl.pojo.Tour;
 import com.lpl.repository.CommentRepository;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -31,7 +33,7 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
-    
+
     @Autowired
     private Environment env;
 
@@ -47,10 +49,21 @@ public class CommentRepositoryImpl implements CommentRepository {
         q = q.orderBy(b.desc(root.get("commentDatetime")));
 
         Query query = s.createQuery(q);
+        return query.getResultList();
+    }
 
-//        int pageSize = Integer.parseInt(this.env.getProperty("COMMENT_PAGE"));
-//        query.setMaxResults(pageSize);
-//        query.setFirstResult((page - 1) * pageSize);
+    @Override
+    public List<Comment> getCommentsByNews(int newsId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Comment> q = b.createQuery(Comment.class);
+        Root root = q.from(Comment.class);
+        q.select(root);
+
+        q = q.where(b.equal(root.get("newsId"), newsId));
+        q = q.orderBy(b.desc(root.get("commentDatetime")));
+
+        Query query = s.createQuery(q);
         return query.getResultList();
     }
 
@@ -63,11 +76,32 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Comment addComment(Comment c) {
+    public Comment addComment(Comment c, int tourId, int newsId) {
         Session s = this.factory.getObject().getCurrentSession();
-        s.save(c);
-        
-        return c;
+        try {
+            if (tourId != 0) {
+                // Thêm comment vào tour
+                Tour tour = s.get(Tour.class, tourId);
+                if (tour != null) {
+                    c.setTourId(tour);
+                    s.save(c);
+                    return c;
+                }
+            } else if (newsId != 0) {
+                // Thêm comment vào tin tức
+                News news = s.get(News.class, newsId);
+                if (news != null) {
+                    c.setNewsId(news);
+                    s.save(c);
+                    return c;
+                }
+            }
+            // Nếu không xác định được loại hoặc không tìm thấy tour hoặc tin tức
+            return null;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
 }

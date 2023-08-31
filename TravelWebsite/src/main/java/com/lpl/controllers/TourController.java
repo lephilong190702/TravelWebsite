@@ -66,24 +66,6 @@ public class TourController {
                 return "redirect:/";
             }
         }
-
         return "tour";
     }
-
-    @GetMapping("/tours/{id}")
-    public String detail(Model model, @PathVariable(value = "id") int id,
-            @RequestParam(required = false) Map<String, String> params) {
-        System.out.println("[DEBUG] - Account type: " + SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("tour", this.tourService.getTourById(id));
-
-//        int page = Integer.parseInt(params.getOrDefault("page", "1"));
-//        model.addAttribute("comments", this.commentService.getCommentsByTour(id));
-//        
-//        int pageSize = Integer.parseInt(this.env.getProperty("COMMENT_PAGE"));
-//        int count = this.commentService.countComments(id);
-//        model.addAttribute("countComment",this.commentService.countComments(id));
-        return "detail";
-    }
-
-    
 }

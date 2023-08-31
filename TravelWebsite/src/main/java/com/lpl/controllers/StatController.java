@@ -23,9 +23,9 @@ public class StatController {
     private StatsService statsService;
     
     @GetMapping("/stat")
-    public String list(Model model) {
+    public String list(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("count", this.statsService.countTourByDestination());
-        
+        model.addAttribute("stat", this.statsService.statsRevenue(params));
         return "stat";
     }
 }

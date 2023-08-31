@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface CommentRepository {
     List<Comment> getCommentsByTour(int tourId);
+    List<Comment> getCommentsByNews(int newsId);
     int countComments(int tourId);
-    Comment addComment(Comment c);
+    Comment addComment(Comment c, int tourId, int newsId);
 }

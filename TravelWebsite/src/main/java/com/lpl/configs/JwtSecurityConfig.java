@@ -88,13 +88,15 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().ignoringAntMatchers("/api/**");
         http.authorizeRequests().antMatchers("/api/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/tours/").permitAll();
+        http.authorizeRequests().antMatchers("/api/tours/**").permitAll();
         http.authorizeRequests().antMatchers("/api/destinations/").permitAll();
         http.authorizeRequests().antMatchers("/api/news/").permitAll();
+        http.authorizeRequests().antMatchers("/api/news/**").permitAll();
         http.authorizeRequests().antMatchers("/api/users/").permitAll();
-        http.authorizeRequests().antMatchers("/api/**/comments").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint( restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 .and()

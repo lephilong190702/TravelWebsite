@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
+import { MyCartContext } from "../App";
 
 const Home = () => {
     const [tours, setTours] = useState(null);
@@ -13,6 +14,8 @@ const Home = () => {
     const [fromDate, setFromDate] = useState(""); // Ngày
     const [toDate, setToDate] = useState(""); // Ngày
     const nav = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const toursPerPage = 20;
 
     useEffect(() => {
         const loadTours = async () => {
@@ -57,6 +60,7 @@ const Home = () => {
                 }
 
                 let res = await Apis.get(e);
+
                 setTours(res.data);
             } catch (ex) {
                 console.error(ex);
@@ -69,6 +73,7 @@ const Home = () => {
 
     const search = (evt) => {
         evt.preventDefault();
+        setCurrentPage(1);
         // Xây dựng URL tìm kiếm với các tham số giá thấp nhất, giá cao nhất và ngày.
 
         if (!kw && !fromPrice && !toPrice && !fromDate && !toDate) {
@@ -109,6 +114,15 @@ const Home = () => {
 
     if (tours.length === 0)
         return <Alert variant="info" className="mt-1">Không tìm thấy tour nào!</Alert>
+
+
+    const indexOfLastTour = currentPage * toursPerPage;
+    const indexOfFirstTour = indexOfLastTour - toursPerPage;
+    const currentTours = tours.slice(indexOfFirstTour, indexOfLastTour);
+
+    const handlePageClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <>
@@ -191,22 +205,20 @@ const Home = () => {
                     </Form>
                 </Col>
                 <Col xs={12} md={8}>
-                    {tours.map(t => {
+                    {currentTours.map(t => {
                         const image = t.imageSet.map(img => img.imageUrl)
                         return (
                             <Card key={t.tourId} className="mb-3">
                                 <Row>
                                     <Col md={4}>
-
                                         <Card.Img variant="top" src={image[image.length - 1]} width="100%" height="100%" />
-
                                     </Col>
                                     <Col md={8}>
                                         <Card.Body>
                                             <Card.Title>{t.tourTitle}</Card.Title>
                                             <Card.Text>{t.tourPrice} VNĐ</Card.Text>
                                             <Link to={`/tours/${t.tourId}`}>
-                                                <   Button variant="success">Xem thông tin</Button>
+                                                <Button variant="success">Xem thông tin</Button>
                                             </Link>
                                         </Card.Body>
                                     </Col>
@@ -216,6 +228,17 @@ const Home = () => {
                     })}
                 </Col>
             </Row>
+            <div className="pagination">
+                {Array.from({ length: Math.ceil(tours.length / toursPerPage) }, (_, i) => (
+                    <button
+                        key={i}
+                        onClick={() => handlePageClick(i + 1)}
+                        className={i + 1 === currentPage ? "active" : ""}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+            </div>
         </>
     )
 }

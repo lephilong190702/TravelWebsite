@@ -4,9 +4,11 @@
  */
 package com.lpl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Booking.findByBookingDate", query = "SELECT b FROM Booking b WHERE b.bookingDate = :bookingDate"),
     @NamedQuery(name = "Booking.findByBookingNumberofaudult", query = "SELECT b FROM Booking b WHERE b.bookingNumberofaudult = :bookingNumberofaudult"),
     @NamedQuery(name = "Booking.findByBookingNumberofchidren", query = "SELECT b FROM Booking b WHERE b.bookingNumberofchidren = :bookingNumberofchidren"),
-    @NamedQuery(name = "Booking.findByBookingUnitprice", query = "SELECT b FROM Booking b WHERE b.bookingUnitprice = :bookingUnitprice")})
+    @NamedQuery(name = "Booking.findByBookingAdultunitprice", query = "SELECT b FROM Booking b WHERE b.bookingAdultunitprice = :bookingAdultunitprice"),
+    @NamedQuery(name = "Booking.findByBookingChildunitprice", query = "SELECT b FROM Booking b WHERE b.bookingChildunitprice = :bookingChildunitprice")})
 public class Booking implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,14 +56,16 @@ public class Booking implements Serializable {
     @Column(name = "booking_numberofchidren")
     private Integer bookingNumberofchidren;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "booking_unitprice")
-    private Float bookingUnitprice;
+    @Column(name = "booking_adultunitprice")
+    private Float bookingAdultunitprice;
+    @Column(name = "booking_childunitprice")
+    private Float bookingChildunitprice;
     @Lob
     @Size(max = 2147483647)
     @Column(name = "booking_notes")
     private String bookingNotes;
     @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Payment paymentId;
     @JoinColumn(name = "tour_id", referencedColumnName = "tour_id")
     @ManyToOne
@@ -105,12 +110,20 @@ public class Booking implements Serializable {
         this.bookingNumberofchidren = bookingNumberofchidren;
     }
 
-    public Float getBookingUnitprice() {
-        return bookingUnitprice;
+    public Float getBookingAdultunitprice() {
+        return bookingAdultunitprice;
     }
 
-    public void setBookingUnitprice(Float bookingUnitprice) {
-        this.bookingUnitprice = bookingUnitprice;
+    public void setBookingAdultunitprice(Float bookingAdultunitprice) {
+        this.bookingAdultunitprice = bookingAdultunitprice;
+    }
+
+    public Float getBookingChildunitprice() {
+        return bookingChildunitprice;
+    }
+
+    public void setBookingChildunitprice(Float bookingChildunitprice) {
+        this.bookingChildunitprice = bookingChildunitprice;
     }
 
     public String getBookingNotes() {
