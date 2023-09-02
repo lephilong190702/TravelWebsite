@@ -12,6 +12,6 @@ import java.util.Map;
  * @author lephi
  */
 public interface StatsService {
-    List<Object[]> countTourByDestination();
+    List<Object[]> countTourByDestination(Map<String, String> params);
     List<Object[]> statsRevenue(Map<String, String> params);
 }

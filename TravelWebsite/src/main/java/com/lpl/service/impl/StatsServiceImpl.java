@@ -22,8 +22,8 @@ public class StatsServiceImpl implements StatsService {
     private StatsRepository statsRepository;
 
     @Override
-    public List<Object[]> countTourByDestination() {
-        List<Object[]> count = this.statsRepository.countTourByDestination();
+    public List<Object[]> countTourByDestination(Map<String, String> params) {
+        List<Object[]> count = this.statsRepository.countTourByDestination(params);
         return count;
     }
 

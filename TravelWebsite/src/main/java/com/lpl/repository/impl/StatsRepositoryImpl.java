@@ -12,6 +12,7 @@ import com.lpl.repository.StatsRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -41,16 +42,53 @@ public class StatsRepositoryImpl implements StatsRepository {
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Object[]> countTourByDestination() {
+    public List<Object[]> countTourByDestination(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
         Root rT = q.from(Tour.class);
         Root rD = q.from(Destination.class);
 
-        q.multiselect(rD.get("destinationId"), rD.get("destinationCity"), b.count(rT.get("tourId")));
-        q.where(b.equal(rT.get("destinationId"), rD.get("destinationId")));
-        q.groupBy(rD.get("destinationId"));
+        q.multiselect(rD.get("destinationId"), 
+                rD.get("destinationCity"), 
+                b.function("MONTH", Integer.class, rT.get("tourStartdate")),
+                b.function("QUARTER", Integer.class, rT.get("tourStartdate")),
+                b.function("YEAR", Integer.class, rT.get("tourStartdate")),
+                b.count(rT.get("tourId")));
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(rT.get("destinationId"), rD.get("destinationId")));
+
+        String years = params.get("years"); 
+        if (years != null && !years.isEmpty()) {
+            predicates.add(b.equal(b.function("YEAR", Integer.class, rT.get("tourStartdate")), Integer.parseInt(years)));
+        }
+
+        String quarters = params.get("quarters");
+        if (quarters != null && !quarters.isEmpty()) {
+            if (years != null && !years.isEmpty()) {
+                predicates.addAll(Arrays.asList(
+                        b.equal(b.function("YEAR", Integer.class, rT.get("tourStartdate")), Integer.parseInt(years)),
+                        b.equal(b.function("QUARTER", Integer.class, rT.get("tourStartdate")), Integer.parseInt(quarters))
+                ));
+            }
+        }
+
+        String months = params.get("months");
+        if (months != null && !months.isEmpty()) {
+            if (years != null && !years.isEmpty()) {
+                predicates.addAll(Arrays.asList(
+                        b.equal(b.function("YEAR", Integer.class, rT.get("tourStartdate")), Integer.parseInt(years)),
+                        b.equal(b.function("MONTH", Integer.class, rT.get("tourStartdate")), Integer.parseInt(months))
+                ));
+            }
+        }
+
+        q.where(predicates.toArray(Predicate[]::new));
+        q.groupBy(rD.get("destinationId"), 
+                b.function("MONTH", Integer.class, rT.get("tourStartdate")),
+                b.function("QUARTER", Integer.class, rT.get("tourStartdate")),
+                b.function("YEAR", Integer.class, rT.get("tourStartdate"))
+        );
         Query query = s.createQuery(q);
         return query.getResultList();
     }
@@ -64,40 +102,73 @@ public class StatsRepositoryImpl implements StatsRepository {
         Root rB = q.from(Booking.class);
         Root rP = q.from(Payment.class);
 
-        q.multiselect(rT.get("tourId"), rT.get("tourTitle"),
+        q.multiselect(
+                b.function("MONTH", Integer.class, rP.get("paymentCreatedate")),
+                b.function("QUARTER", Integer.class, rP.get("paymentCreatedate")),
+                b.function("YEAR", Integer.class, rP.get("paymentCreatedate")),
                 b.sum(
                         b.sum(
                                 b.prod(rB.get("bookingAdultunitprice"), rB.get("bookingNumberofaudult")),
                                 b.prod(rB.get("bookingChildunitprice"), rB.get("bookingNumberofchidren"))
                         )
-                ));
+                )
+        );
 
-        
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(rB.get("tourId"), rT.get("tourId")));
         predicates.add(b.equal(rB.get("paymentId"), rP.get("paymentId")));
 
         String fd = params.get("fromDate");
-        if (fd != null && !fd.isEmpty())
-            try {
-            predicates.add(b.greaterThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(fd)));
-        } catch (ParseException ex) {
-            Logger.getLogger(StatsRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+        {
+            if (fd != null && !fd.isEmpty())
+        try {
+                predicates.add(b.greaterThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(fd)));
+            } catch (ParseException ex) {
+                Logger.getLogger(StatsRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         String td = params.get("toDate");
-        if (td != null && !td.isEmpty())
+        if (td != null && !td.isEmpty()) {
             try {
-            predicates.add(b.lessThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(td)));
-        } catch (ParseException ex) {
-            Logger.getLogger(StatsRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+                predicates.add(b.lessThanOrEqualTo(rP.get("paymentCreatedate"), FORMAT.parse(td)));
+            } catch (ParseException ex) {
+                Logger.getLogger(StatsRepositoryImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
+        String year = params.get("year");
+        if (year != null && !year.isEmpty()) {
+            predicates.add(b.equal(b.function("YEAR", Integer.class, rP.get("paymentCreatedate")), Integer.parseInt(year)));
+        }
+
+        String quarter = params.get("quarter");
+        if (quarter != null && !quarter.isEmpty()) {
+            if (year != null && !year.isEmpty()) {
+                predicates.addAll(Arrays.asList(
+                        b.equal(b.function("YEAR", Integer.class, rP.get("paymentCreatedate")), Integer.parseInt(year)),
+                        b.equal(b.function("QUARTER", Integer.class, rP.get("paymentCreatedate")), Integer.parseInt(quarter))
+                ));
+            }
+        }
+        String month = params.get("month");
+        if (month != null && !month.isEmpty()) {
+            if (year != null && !year.isEmpty()) {
+                predicates.addAll(Arrays.asList(
+                        b.equal(b.function("YEAR", Integer.class, rP.get("paymentCreatedate")), Integer.parseInt(year)),
+                        b.equal(b.function("MONTH", Integer.class, rP.get("paymentCreatedate")), Integer.parseInt(month))
+                ));
+            }
+        }
         q.where(predicates.toArray(Predicate[]::new));
 
-        q.groupBy(rT.get("tourId"));
-        q.orderBy(b.asc(rT.get("tourId")));
+        q.groupBy(
+                b.function("MONTH", Integer.class, rP.get("paymentCreatedate")),
+                b.function("QUARTER", Integer.class, rP.get("paymentCreatedate")),
+                b.function("YEAR", Integer.class, rP.get("paymentCreatedate"))
+        );
         Query query = s.createQuery(q);
+
         return query.getResultList();
     }
 
