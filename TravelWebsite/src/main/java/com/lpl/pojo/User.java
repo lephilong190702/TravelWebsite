@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -64,18 +65,18 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private Integer userId;
     @Basic(optional = false)
-    @NotNull
+    @NotEmpty(message = "{user.userUsername.notNull}")
     @Size(min = 1, max = 45, message = "{user.userUsername.lenErr}")
     @Column(name = "user_username")
     private String userUsername;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 1, max = 300, message = "{user.userPassword.lenErr}")
     @Column(name = "user_password")
+    @NotEmpty(message = "{user.userPassword.notNull}")
     private String userPassword;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @NotEmpty(message = "{user.userEmail.notNull}")
+    @Size(min = 1, max = 45, message = "{user.userEmail.lenErr}")
     @Column(name = "user_email")
     private String userEmail;
     @Column(name = "user_dob")
@@ -97,6 +98,7 @@ public class User implements Serializable {
     private MultipartFile file;
 
     @Transient
+    @NotEmpty(message = "{user.userConfirmPassword.notNull}")
     private String confirmPassword;
 
     public User() {

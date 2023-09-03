@@ -27,7 +27,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -74,21 +77,24 @@ public class Tour implements Serializable {
     @Basic(optional = false)
     @Column(name = "tour_id")
     private Integer tourId;
-    @Basic(optional = false)
-    @NotNull(message = "{tour.tourTitle.notNull}")
+    @NotEmpty(message = "{tour.tourTitle.notNull}")
     @Size(min = 1, max = 255, message = "{tour.tourTitle.lenErr}")
     @Column(name = "tour_title")
     private String tourTitle;
-    @Basic(optional = false)
-    @NotNull(message = "{tour.tourPrice.notNull}")
+    @NotEmpty(message = "{tour.tourAdultPrice.notNull}")
     @Column(name = "tour_adultprice")
+    @Min(value = 10000, message = "{tour.tourAdultPrice.minErr}")
     private float tourAdultPrice;
+    @NotEmpty(message = "{tour.tourChildPrice.notNull}")
+    @Min(value = 10000, message = "{tour.tourChildPrice.minErr}")
     @Column(name = "tour_childprice")
     private float tourChildPrice;
     @Column(name = "tour_startdate")
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "{tour.tourStartdate.notNull}")
     private Date tourStartdate;
+    @NotNull(message = "{tour.tourEnddate.notNull}")
     @Column(name = "tour_enddate")
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -102,10 +108,6 @@ public class Tour implements Serializable {
     @Size(max = 2147483647)
     @Column(name = "tour_description")
     private String tourDescription;
-//    @Lob
-//    @Size(max = 2147483647)
-//    @Column(name = "tour_imageurl")
-//    private String tourImageurl;
     @JoinColumn(name = "destination_id", referencedColumnName = "destination_id")
     @ManyToOne
     private Destination destinationId;

@@ -11,7 +11,6 @@
 <h1 class="text-center text-info mt-1">QUẢN LÝ TOUR</h1>
 <c:url value="/admin/tours" var="action" />
 <form:form modelAttribute="tour" method="post" action="${action}" enctype="multipart/form-data">
-    <form:errors path="*" element="div" cssClass="alert alert-danger" />
 
     <form:hidden path="tourId" />
     <div class="form-floating mb-3 mt-3">
@@ -53,7 +52,7 @@
         <form:input type="date" class="form-control" path="tourStartdate" id="tourStartdate" 
                     placeholder="Ngày bắt đầu" name="tourStartdate" />
         <label for="name">Ngày bắt đầu</label>
-        <form:errors path="tourStartdate" element="div" cssClass="text-danger" />
+         <form:errors path="tourStartdate" element="div" cssClass="text-danger" />
     </div>
     <div class="form-floating mb-3 mt-3">
         <form:input type="date" class="form-control" path="tourEnddate" id="tourEnddate" 
@@ -65,6 +64,7 @@
         <form:input type="file" class="form-control" path="files" id="files" 
                     placeholder="Ảnh tour" multiple = "multiple"/>
         <form:label path="imageSet" for="file">Ảnh tour</form:label>
+        <form:errors path="files" element="div" cssClass="text-danger" />
     </div>
     <div class="form-floating mb-3 mt-3">
         <button class ="btn btn-info mt-1" type="submit">
