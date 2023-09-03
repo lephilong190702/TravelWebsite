@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Apis, { authApi, endpoints } from "../configs/Apis";
 import { Link, useParams } from "react-router-dom";
-import { Button, Image, ListGroup, Form } from "react-bootstrap";
+import { Button, Image, ListGroup, Form} from "react-bootstrap";
 import MySpinner from "../layout/MySpinner";
 import { useContext } from "react";
 import { MyCartContext, MyUserContext } from "../App";
@@ -21,6 +21,7 @@ const TourDetail = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const commentsPerPage = 5;
     // const [images, setImages] = useState(null);
+
 
     useEffect(() => {
 
@@ -106,32 +107,59 @@ const TourDetail = () => {
 
     return (
         <>
-            <h1 className="text-center text-info">{tour.tourTitle}</h1>
-            {/* <div>
-                    {images !== null &&
-                        <FbImageGrid
-                            images={images}
-                            hideOverlay
-                            imageWidth={250}
-                            imageHeight={250}
-                          
-                        />}
-                
-                    </div> */}
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {tour.imageSet !== null && tour.imageSet.map(t => (
-                    <Image src={t.imageUrl} width={200} height={200} />
+            <h1 className="text-center text-info mb-5">{tour.tourTitle}</h1>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+                {tour.imageSet !== null && tour.imageSet.map((t, index) => (
+                    <Image
+                        key={index}
+                        src={t.imageUrl}
+                        width={300}
+                        height={250}
+                        style={{ margin: '5px', flexBasis: '30%' }}
+                    />
                 ))}
             </div>
-            <p>{tour.tourDescription}</p>
-            <div className="mt-2 mb-2">
+
+            <div className="d-flex mt-5">
+                <div style={{ flex: 3 }}>
+                    <p>{tour.tourDescription}</p>
+                </div>
+                <div style={{ flex: 1, border: '1px solid #0c5f78', padding: '10px', borderRadius: '10px' }}>
+                    <h2 className="text-center text-info">ĐẶT VÉ</h2>
+                    <div className="d-flex justify-content-between align-items-center mt-2 mb-3">
+                        <div>
+                            <Form.Label><strong>Người lớn</strong></Form.Label>
+                            <div>
+                                <Form.Label>{tour.tourAdultPrice} VND</Form.Label>
+                            </div>
+                        </div>
+                        <div>
+                            <Button onClick={() => order(tour, "adult")}>ĐẶT VÉ</Button>
+                        </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div>
+                            <Form.Label><strong>Trẻ em</strong></Form.Label>
+                            <div>
+                                <Form.Label>{tour.tourChildPrice} VND</Form.Label>
+                            </div>
+                        </div>
+                        <div>
+                            <Button onClick={() => order(tour, "child")}>ĐẶT VÉ</Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* <div className="mt-2 mb-2">
                 <span>NGƯỜI LỚN: {tour.tourAdultPrice} VND  </span>
                 <Button onClick={() => order(tour, "adult")}>ĐẶT VÉ</Button>
             </div>
             <div className="mt-2 mb-2 ">
                 <span>TRẺ EM: {tour.tourChildPrice} VND  </span>
                 <Button onClick={() => order(tour, "child")}>ĐẶT VÉ</Button>
-            </div>
+            </div> */}
             <hr />
             {user === null ? <p>Vui lòng <Link to={url}>đăng nhập</Link> để bình luận! </p> : <>
                 <Form.Control as="textarea" aria-label="With textarea" value={content} onChange={e => setContent(e.target.value)} placehoder="Nhập nội dung bình luận" />

@@ -74,16 +74,16 @@ const Home = () => {
     const search = (evt) => {
         evt.preventDefault();
         setCurrentPage(1);
-        // Xây dựng URL tìm kiếm với các tham số giá thấp nhất, giá cao nhất và ngày.
+
 
         if (!kw && !fromPrice && !toPrice && !fromDate && !toDate) {
             alert("Vui lòng nhập ít nhất một tham số tìm kiếm.");
             return;
         }
 
-        let url = "/?"; // Khởi tạo URL tìm kiếm
+        let url = "/?";
 
-        // Kiểm tra và thêm các tham số vào URL nếu có giá trị
+
         if (kw) {
             url += `kw=${kw}&`;
         }
@@ -100,12 +100,10 @@ const Home = () => {
             url += `toDate=${toDate}&`;
         }
 
-        // Loại bỏ dấu & cuối cùng nếu có
         if (url.charAt(url.length - 1) === "&") {
             url = url.slice(0, -1);
         }
 
-        // Sử dụng `nav` để chuyển hướng đến URL tìm kiếm
         nav(url);
     }
 
@@ -216,7 +214,9 @@ const Home = () => {
                                     <Col md={8}>
                                         <Card.Body>
                                             <Card.Title>{t.tourTitle}</Card.Title>
-                                            <Card.Text>{t.tourPrice} VNĐ</Card.Text>
+                                            <Card.Text>{t.destinationId.destinationCity}, {t.destinationId.destinationCountry}</Card.Text>
+                                            <Card.Text>{t.tourAdultPrice} VNĐ</Card.Text>
+                                            
                                             <Link to={`/tours/${t.tourId}`}>
                                                 <Button variant="success">Xem thông tin</Button>
                                             </Link>
