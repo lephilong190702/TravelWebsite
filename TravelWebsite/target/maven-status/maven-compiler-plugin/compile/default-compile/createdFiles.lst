@@ -28,7 +28,6 @@ com\lpl\repository\impl\EmployeeRepositoryImpl.class
 com\lpl\service\impl\UserServiceImpl.class
 com\lpl\controllers\ApiReceiptController.class
 com\lpl\repository\CommentRepository.class
-com\lpl\pojo\Review.class
 com\lpl\service\CommentService.class
 com\lpl\service\impl\NewsServiceImpl.class
 com\lpl\controllers\ApiDestinationController.class
@@ -64,7 +63,6 @@ com\lpl\pojo\Employee_.class
 com\lpl\configs\WebAppContextConfig.class
 com\lpl\repository\TourRepository.class
 com\lpl\controllers\ApiTourController.class
-com\lpl\pojo\Review_.class
 com\lpl\filters\RestAuthenticationEntryPoint.class
 com\lpl\controllers\ApiUserController.class
 com\lpl\repository\impl\NewsRepositoryImpl.class
