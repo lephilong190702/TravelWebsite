@@ -70,6 +70,7 @@ com\lpl\pojo\Image_.class
 com\lpl\service\impl\EmployeeServiceImpl.class
 com\lpl\configs\HibernateConfig.class
 com\lpl\service\impl\ReceiptServiceImpl.class
+com\lpl\controllers\StatController.class
 com\lpl\pojo\News_.class
 com\lpl\service\UserService.class
 com\lpl\pojo\Comment_.class
