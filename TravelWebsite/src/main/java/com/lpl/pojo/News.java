@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -45,9 +46,11 @@ public class News implements Serializable {
     @Basic(optional = false)
     @Column(name = "news_id")
     private Integer newsId;
+    @NotEmpty(message = "{news.newsTitle.notNull}")
     @Size(max = 300)
     @Column(name = "news_title")
     private String newsTitle;
+    @NotEmpty(message = "{news.newsContent.notNull}")
     @Lob
     @Size(max = 2147483647)
     @Column(name = "news_content")

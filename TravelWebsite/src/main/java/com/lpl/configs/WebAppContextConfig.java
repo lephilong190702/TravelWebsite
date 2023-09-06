@@ -8,11 +8,17 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.lpl.formatter.DestinationFormatter;
 import com.lpl.formatter.TourFormatter;
+import com.lpl.validators.PassValidator;
+//import com.lpl.validators.TourValidator;
+import com.lpl.validators.WebAppValidator;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
@@ -20,6 +26,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -37,22 +44,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     "com.lpl.controllers",
     "com.lpl.repository",
     "com.lpl.service",
+    "com.lpl.validators"
 })
 @PropertySource("classpath:configs.properties")
 public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Autowired
     private Environment env;
-   
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new DestinationFormatter());
-        registry.addFormatter(new TourFormatter());
     }
 
     @Bean
@@ -63,7 +65,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         resolver.setDefaultEncoding("UTF-8");
         return resolver;
     }
-    
+
     @Bean
     public Cloudinary cloudinary() {
         Cloudinary cloudinary
@@ -75,7 +77,6 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return cloudinary;
     }
 
-    
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource m = new ResourceBundleMessageSource();
@@ -84,8 +85,14 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return m;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**", "tours/resources/**")
+                .addResourceLocations("/WEB-INF/resources/");
+    }
+
     @Bean(name = "validator")
-    public LocalValidatorFactoryBean validator() {
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
         LocalValidatorFactoryBean bean
                 = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
@@ -94,17 +101,35 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Override
     public Validator getValidator() {
-        return validator();
+        return localValidatorFactoryBean();
     }
 
-    /**
-     *
-     * @param registry
-     */
+//    @Bean
+//    public WebAppValidator tourValidator() {
+//        Set<Validator> springValidators = new HashSet<>();
+//        springValidators.add(new TourValidator());
+//
+//        WebAppValidator v = new WebAppValidator();
+//        v.setSpringValidators(springValidators);
+//
+//        return v;
+//    }
+    
+    
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**", "tours/resources/**")
-                .addResourceLocations("/WEB-INF/resources/");
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new DestinationFormatter());
+        registry.addFormatter(new TourFormatter());
     }
-   
+
+    @Bean
+    public WebAppValidator userValidator() {
+        Set<Validator> springValidators = new HashSet<>();
+        springValidators.add(new PassValidator());
+        
+        WebAppValidator validator = new WebAppValidator();
+        validator.setSpringValidators(springValidators);
+        return validator;
+    }
+
 }

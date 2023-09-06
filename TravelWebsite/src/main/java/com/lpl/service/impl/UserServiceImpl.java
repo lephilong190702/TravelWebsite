@@ -9,6 +9,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.lpl.pojo.User;
 import com.lpl.repository.UserRepository;
 import com.lpl.service.UserService;
+//import com.lpl.validator.WebAppValidator;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,10 +36,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
     @Autowired
     private Cloudinary cloudinary;
-
+   
     @Override
     public User addUser(Map<String, String> params, MultipartFile file) {
         User u = new User();

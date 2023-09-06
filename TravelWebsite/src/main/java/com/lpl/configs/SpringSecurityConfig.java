@@ -32,7 +32,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {
     "com.lpl.controllers",
     "com.lpl.repository",
-    "com.lpl.service"
+    "com.lpl.service",
+    "com.lpl.validators"
 })
 @PropertySource("classpath:configs.properties")
 @Order(2)
@@ -86,8 +87,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ROLE_EMPLOYEE') or  hasRole('ROLE_ADMIN')")
                 .antMatchers("/**/admin/**", "/**/stat")
                 .access("hasRole('ROLE_ADMIN')");
-                
-                
+
         http.csrf().disable();
 
     }

@@ -26,6 +26,7 @@
         <form:input type="text" class="form-control" path="newsContent" id="newsContent" 
                     placeholder="Nội dung" name="newsContent" />
         <label for="name">Nội dung</label>
+        <form:errors path="newsContent" element="div" cssClass="text-danger" />
     </div>
     <div class="form-floating mb-3 mt-3">
         <form:input type="file" class="form-control" path="file" id="file" 

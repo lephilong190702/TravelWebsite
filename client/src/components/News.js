@@ -12,16 +12,6 @@ const News = () => {
         const loadNews = async () => {
             try {
                 let e = endpoints['news'];
-                // let desId = q.get("desId");
-                // if (desId !== null)
-                //     e = `${e}?desId=${desId}`;
-                // else {
-                //     let kw = q.get("kw");
-                //     if (kw !== null)
-                //         e = `${e}?kw=${kw}`;
-                // }
-
-
                 let res = await Apis.get(e);
                 setNews(res.data);
             } catch (ex) {

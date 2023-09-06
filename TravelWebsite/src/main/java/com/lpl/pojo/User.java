@@ -98,7 +98,6 @@ public class User implements Serializable {
     private MultipartFile file;
 
     @Transient
-    @NotEmpty(message = "{user.userConfirmPassword.notNull}")
     private String confirmPassword;
 
     public User() {

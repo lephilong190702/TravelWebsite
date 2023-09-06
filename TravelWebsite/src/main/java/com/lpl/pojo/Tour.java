@@ -81,11 +81,11 @@ public class Tour implements Serializable {
     @Size(min = 1, max = 255, message = "{tour.tourTitle.lenErr}")
     @Column(name = "tour_title")
     private String tourTitle;
-    @NotEmpty(message = "{tour.tourAdultPrice.notNull}")
+    @NotNull(message = "{tour.tourAdultPrice.notNull}")
     @Column(name = "tour_adultprice")
     @Min(value = 10000, message = "{tour.tourAdultPrice.minErr}")
     private float tourAdultPrice;
-    @NotEmpty(message = "{tour.tourChildPrice.notNull}")
+    @NotNull(message = "{tour.tourChildPrice.notNull}")
     @Min(value = 10000, message = "{tour.tourChildPrice.minErr}")
     @Column(name = "tour_childprice")
     private float tourChildPrice;

@@ -32,7 +32,6 @@
     <div class="mb-3">
         <label for="confirmPassword" class="form-label">Confirm password:</label>
         <form:input type="password" class="form-control" id="confirmPassword" placeholder="Enter confirm password" path="confirmPassword"/>
-        <form:errors path="confirmPassword" cssClass="text-danger" element="div" />
     </div>
     <div class="mb-3 mt-3">
         <label for="email" class="form-label">Email:</label>

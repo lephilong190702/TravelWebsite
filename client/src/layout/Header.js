@@ -46,7 +46,6 @@ const Header = () => {
                             <Link to="/" className="nav-link">Trang chủ</Link>
                             <Link to="/news" className="nav-link">Tin tức</Link>
                             <NavDropdown title="Điểm đến" id="basic-nav-dropdown">
-
                                 {destinations.map(d => {
                                     let h = `/?desId=${d.destinationId}`;
                                     return <Link to={h} className="dropdown-item" key={d.destinationId}>{d.destinationCity}</Link>

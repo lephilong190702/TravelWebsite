@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -57,9 +58,13 @@ public class ApiUserController {
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
-    public ResponseEntity<User> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
-        User user = this.userService.addUser(params, avatar);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    public ResponseEntity<?> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
+        try{
+            User user = this.userService.addUser(params, avatar);
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     
     @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -21,6 +21,7 @@ D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\reposito
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\StatsService.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\impl\StatsServiceImpl.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\controllers\EmployeeController.java
+D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\validators\PassValidator.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\StatsRepository.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\impl\DestinationRepositoryImpl.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\formatter\TourFormatter.java
@@ -30,9 +31,11 @@ D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\impl\StatsRepositoryImpl.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\DestinationRepository.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\impl\TourServiceImpl.java
+D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\validators\WebAppValidator.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\impl\EmployeeRepositoryImpl.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\NewsRepository.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\configs\WebAppContextConfig.java
+D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\validators\TourValidator.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Comment.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Cart.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Employee.java

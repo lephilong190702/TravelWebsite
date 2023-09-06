@@ -6,13 +6,17 @@ package com.lpl.controllers;
 
 import com.lpl.pojo.User;
 import com.lpl.service.UserService;
+import com.lpl.validators.WebAppValidator;
+//import com.lpl.validator.WebAppValidator;
 import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +32,14 @@ public class UserController {
 
     @Autowired
     private UserService userDetailsService;
+    @Autowired
+    private WebAppValidator userValidator;
+    
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(userValidator);
+    }
+
 
     @GetMapping("/login")
     public String login() {
