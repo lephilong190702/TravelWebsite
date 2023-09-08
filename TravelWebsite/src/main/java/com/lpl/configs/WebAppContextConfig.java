@@ -9,20 +9,22 @@ import com.cloudinary.utils.ObjectUtils;
 import com.lpl.formatter.DestinationFormatter;
 import com.lpl.formatter.TourFormatter;
 import com.lpl.validators.PassValidator;
-//import com.lpl.validators.TourValidator;
 import com.lpl.validators.WebAppValidator;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -38,14 +40,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author lephi
  */
 @Configuration
-@EnableWebMvc
-@EnableTransactionManagement
 @ComponentScan(basePackages = {
     "com.lpl.controllers",
     "com.lpl.repository",
     "com.lpl.service",
     "com.lpl.validators"
 })
+@EnableWebMvc
+@EnableTransactionManagement
 @PropertySource("classpath:configs.properties")
 public class WebAppContextConfig implements WebMvcConfigurer {
 
@@ -92,7 +94,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
 
     @Bean(name = "validator")
-    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+    public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean bean
                 = new LocalValidatorFactoryBean();
         bean.setValidationMessageSource(messageSource());
@@ -101,21 +103,9 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 
     @Override
     public Validator getValidator() {
-        return localValidatorFactoryBean();
+        return validator();
     }
 
-//    @Bean
-//    public WebAppValidator tourValidator() {
-//        Set<Validator> springValidators = new HashSet<>();
-//        springValidators.add(new TourValidator());
-//
-//        WebAppValidator v = new WebAppValidator();
-//        v.setSpringValidators(springValidators);
-//
-//        return v;
-//    }
-    
-    
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new DestinationFormatter());
@@ -126,10 +116,27 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     public WebAppValidator userValidator() {
         Set<Validator> springValidators = new HashSet<>();
         springValidators.add(new PassValidator());
-        
         WebAppValidator validator = new WebAppValidator();
         validator.setSpringValidators(springValidators);
         return validator;
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("2051012056long@ou.edu.vn");
+        mailSender.setPassword("2858831551907");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "false");
+
+        return mailSender;
     }
 
 }

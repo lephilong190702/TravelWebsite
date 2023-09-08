@@ -32,7 +32,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.lpl.repository",
     "com.lpl.service",
     "com.lpl.components",
-    "com.lpl.validators"
+    "com.lpl.validator",
+    "com.lpl.configs"
 })
 @Order(1)
 public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {

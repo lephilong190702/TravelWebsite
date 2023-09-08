@@ -87,4 +87,9 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.authUser(username, password);
     }
 
+    @Override
+    public String findEmailByUserName(String username) {
+        return this.userRepository.findEmailByUserName(username);
+    }
+
 }

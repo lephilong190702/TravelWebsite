@@ -7,6 +7,7 @@ package com.lpl.controllers;
 import com.lpl.pojo.User;
 import com.lpl.service.UserService;
 import com.lpl.validators.WebAppValidator;
+//import com.lpl.validators.WebAppValidator;
 //import com.lpl.validator.WebAppValidator;
 import java.util.Map;
 import javax.validation.Valid;
@@ -54,16 +55,11 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(Model model, @RequestParam Map<String, String> params, @ModelAttribute(value = "user") User user,
-            @Valid User u, BindingResult rs, @RequestPart MultipartFile file) {
+           @Valid User u, BindingResult rs, @RequestPart MultipartFile file) {
         if (rs.hasErrors()) {
             return "register";
         }
-
-        if (!user.getUserPassword().equals(user.getConfirmPassword())) {
-            model.addAttribute("errMsg", "Mật khẩu xác nhận không khớp với mật khẩu");
-            return "register";
-        }
-
+        
         User newUser = userDetailsService.addUser(params, file);
         if(newUser != null)
             return "redirect:/login";

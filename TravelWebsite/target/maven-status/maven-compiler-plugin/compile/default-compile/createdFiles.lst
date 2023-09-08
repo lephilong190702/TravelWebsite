@@ -46,10 +46,12 @@ com\lpl\repository\impl\StatsRepositoryImpl.class
 com\lpl\formatter\TourFormatter.class
 com\lpl\repository\impl\TourRepositoryImpl.class
 com\lpl\service\DestinationService.class
+com\lpl\service\EmailService.class
 com\lpl\controllers\TourController.class
 com\lpl\service\impl\StatsServiceImpl.class
 com\lpl\pojo\Destination.class
 com\lpl\repository\StatsRepository.class
+com\lpl\service\impl\EmailServiceImpl.class
 com\lpl\pojo\Comment.class
 com\lpl\repository\impl\UserRepositoryImpl.class
 com\lpl\repository\UserRepository.class

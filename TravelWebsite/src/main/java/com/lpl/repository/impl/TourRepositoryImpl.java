@@ -128,7 +128,7 @@ public class TourRepositoryImpl implements TourRepository {
             } else {
                 s.update(t);
             }
-            
+
             List<Image> images = t.getImageSet();
             if (images != null && !images.isEmpty()) {
                 images.forEach(img -> {
@@ -160,4 +160,5 @@ public class TourRepositoryImpl implements TourRepository {
             return false;
         }
     }
+
 }

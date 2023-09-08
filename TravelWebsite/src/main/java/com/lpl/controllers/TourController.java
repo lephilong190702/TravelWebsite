@@ -6,11 +6,11 @@ package com.lpl.controllers;
 
 import com.lpl.pojo.Tour;
 import com.lpl.service.TourService;
-//import com.lpl.validators.TourValidator;
 import com.lpl.validators.WebAppValidator;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,14 +34,7 @@ public class TourController {
 
     @Autowired
     private TourService tourService;
-    
-//    @Autowired
-//    private WebAppValidator tourValidator;
-//
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder) {
-//        binder.setValidator(tourValidator);
-//    }
+   
 
     @GetMapping("/admin/tours")
     public String list(Model model) {

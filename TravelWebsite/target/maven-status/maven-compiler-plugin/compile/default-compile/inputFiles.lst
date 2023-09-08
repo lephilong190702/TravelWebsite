@@ -1,4 +1,5 @@
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\controllers\ApiDestinationController.java
+D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\EmailService.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\filters\CustomAccessDeniedHandler.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\controllers\NewsController.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Payment.java
@@ -35,7 +36,6 @@ D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\validato
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\impl\EmployeeRepositoryImpl.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\repository\NewsRepository.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\configs\WebAppContextConfig.java
-D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\validators\TourValidator.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Comment.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Cart.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\pojo\Employee.java
@@ -67,4 +67,5 @@ D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\controll
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\TourService.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\controllers\ApiReceiptController.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\DestinationService.java
+D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\service\impl\EmailServiceImpl.java
 D:\CuoiKyLapTrinhJava\TravelWebsite\TravelWebsite\src\main\java\com\lpl\configs\HibernateConfig.java

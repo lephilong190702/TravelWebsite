@@ -5,6 +5,7 @@
 package com.lpl.configs;
 
 
+import com.lpl.validators.WebAppValidator;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -19,7 +20,7 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
             HibernateConfig.class,
             TilesConfig.class,
             SpringSecurityConfig.class,
-            JwtSecurityConfig.class,
+            JwtSecurityConfig.class
         };
     }
 

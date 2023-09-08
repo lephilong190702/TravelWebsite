@@ -25,16 +25,18 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class UserRepositoryImpl implements UserRepository{
+public class UserRepositoryImpl implements UserRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
     @Autowired
     private BCryptPasswordEncoder passEncoder;
+
     @Override
     public User addUser(User user) {
         Session s = this.sessionFactory.getObject().getCurrentSession();
         s.save(user);
-        
+
         return user;
     }
 
@@ -45,8 +47,8 @@ public class UserRepositoryImpl implements UserRepository{
         CriteriaQuery<User> q = b.createQuery(User.class);
         Root root = q.from(User.class);
         q = q.select(root);
-        
-        if(!username.isEmpty()){
+
+        if (!username.isEmpty()) {
             Predicate p = b.equal(root.get("userUsername").as(String.class), username.trim());
             q = q.where(p);
         }
@@ -57,9 +59,28 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public boolean authUser(String username, String password) {
-        User  u = this.getUserByUsername(username);
+        User u = this.getUserByUsername(username);
         return this.passEncoder.matches(password, u.getUserPassword());
     }
 
-   
+    @Override
+    public String findEmailByUserName(String username) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<User> q = b.createQuery(User.class);
+        Root root = q.from(User.class);
+        q = q.select(root);
+
+        q.where(b.equal(root.get("userUsername"), username));
+
+        Query query = s.createQuery(q);
+        User user = (User) query.getSingleResult();
+        if (user != null) {
+            return user.getUserEmail();
+        } else {
+            System.out.println("KHONG TIM THAY USER");
+            return null;
+        }
+    }
+
 }

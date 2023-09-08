@@ -6,31 +6,36 @@ package com.lpl.validators;
 
 import com.lpl.pojo.Tour;
 import com.lpl.pojo.User;
+
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  *
  * @author lephi
  */
 @Component
+@Setter
 public class WebAppValidator implements Validator {
     @Autowired
     private javax.validation.Validator beanValidator;
     
     private Set<Validator> springValidators = new HashSet<>();
 
+
     @Override
     public boolean supports(Class<?> clazz) {
-        return Tour.class.isAssignableFrom(clazz)
-                || User.class.isAssignableFrom(clazz);
+        return User.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -44,13 +49,6 @@ public class WebAppValidator implements Validator {
         for (Validator v : this.springValidators) {
             v.validate(target, errors);
         }
-    }
-
-    /**
-     * @param springValidators the springValidators to set
-     */
-    public void setSpringValidators(Set<Validator> springValidators) {
-        this.springValidators = springValidators;
     }
 
 }
